@@ -42,16 +42,11 @@ conan_basic_setup()''')
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        print(self.options.pg_root.__dict__)
         if self.options.shared == "True":
-            self.cpp_info.libs = ['sqlpp11-connector-postgresql-dynamic', 'libpq.lib']
+            self.cpp_info.libs = ['sqlpp11-connector-postgresql-dynamic']
         else:
-            self.cpp_info.libs = ['sqlpp11-connector-postgresql-static', 'libpq.lib']
-        self.cpp_info.includedirs = ['include', '%s/include' % self.options.pg_root._value]
-        self.cpp_info.libdirs.append('%s/lib' % self.options.pg_root._value)
-        print(self.cpp_info.includedirs)
-        print(type('%s\\include' % self.options.pg_root._value))
-        print(type('fsdfsd'))
-        print('%s\\include' % self.options.pg_root._value)
-        print('fsdfsd')
+            self.cpp_info.libs = ['sqlpp11-connector-postgresql-static']
+        self.cpp_info.libs.append('libpq.lib')
 
+        self.cpp_info.includedirs.append('%s/include' % self.options.pg_root._value)
+        self.cpp_info.libdirs.append('%s/lib' % self.options.pg_root._value)
