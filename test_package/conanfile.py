@@ -4,6 +4,8 @@ import os
 class Sqlpp11connectorpostgresqlTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake"
+    options = {"pg_root": "ANY" }
+    default_options = "pg_root="
 
     def build(self):
         cmake = CMake(self)
