@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2017, Volker Aßmann
+* Copyright (c) 2017, Volker AÃŸmann
 * All rights reserved.
 *
 * Redistribution and use in source and binary forms, with or without modification,
@@ -48,6 +48,11 @@ int main()
 		std::cout << "Got exception: '" << ex.what() << "'";
 		if (!strcmp(ex.what(), "Ident authentication failed for user \"unknown_user_must_fail\""))
 			return 1;
+	}
+	catch (const std::exception& ex)
+	{
+		std::cout << "Got unexpected exception: '" << ex.what() << "'";
+		return 2;
 	}
 	return 0;
 }
