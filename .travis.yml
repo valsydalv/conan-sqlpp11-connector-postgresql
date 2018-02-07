@@ -1,4 +1,5 @@
-
+services:
+  - postgresql
 env:
    global:
      - CONAN_REFERENCE: "sqlpp11-connector-postgresql/0.2"
