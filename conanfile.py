@@ -24,7 +24,7 @@ conan_basic_setup()''')
 
     def build(self):
         cmake = CMake(self)
-        if self.settings.os != "Windows"
+        if self.settings.os == "Windows"
             if not self.options.pg_root
                 raise ValueError('pg_root must be specified.')
             cmake.definitions["POSTGRESQL_ROOT_DIR"] = self.options.pg_root
@@ -50,7 +50,7 @@ conan_basic_setup()''')
         else:
             self.cpp_info.libs = ['sqlpp11-connector-postgresql-static']
 
-        if self.settings.os = "Windows"
+        if self.settings.os == "Windows"
             self.cpp_info.includedirs.append('%s/include' % self.options.pg_root._value)
             self.cpp_info.libdirs.append('%s/lib' % self.options.pg_root._value)
         else
