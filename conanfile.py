@@ -1,3 +1,4 @@
+import subprocess
 from conans import ConanFile, CMake, tools
 
 class Sqlpp11connectorpostgresqlConan(ConanFile):
