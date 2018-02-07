@@ -35,7 +35,7 @@ conan_basic_setup()''')
                 raise ValueError('pg_root must be specified.')
             cmake.definitions["POSTGRESQL_ROOT_DIR"] = self.options.pg_root
         else:
-            cmake.definitions["PostgreSQL_ROOT_DIRECTORIES"] = "%s %s %s" (self.options.pg_root._value, getPostgreSQLIncludeDir(), % getPostgreSQLLibDir())
+            cmake.definitions["PostgreSQL_ROOT_DIRECTORIES"] = "%s %s %s" (self.options.pg_root._value, getPostgreSQLIncludeDir(), getPostgreSQLLibDir())
         cmake.definitions["sqlpp11_ROOT_DIR"] = self.deps_cpp_info["sqlpp11"].rootpath
         cmake.configure(source_folder="sqlpp11-connector-postgresql")
         cmake.build()
