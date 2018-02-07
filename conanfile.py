@@ -31,7 +31,7 @@ conan_basic_setup()''')
     def build(self):
         cmake = CMake(self)
         if self.settings.os == "Windows":
-            if not self.options.pg_root:
+            if not self.options.pg_root._value:
                 raise ValueError('pg_root must be specified.')
             cmake.definitions["POSTGRESQL_ROOT_DIR"] = self.options.pg_root
         else:
