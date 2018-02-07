@@ -3,6 +3,10 @@
 set -e
 set -x
 
+if [[ "$(uname -s)" == 'Linux' ]]; then
+    sudo apt-get install libpq-dev
+fi
+
 if [[ "$(uname -s)" == 'Darwin' ]]; then
     brew update || brew update
     brew outdated pyenv || brew upgrade pyenv
