@@ -12,10 +12,10 @@ class Sqlpp11connectorpostgresqlConan(ConanFile):
     generators = "cmake"
     requires = "sqlpp11/0.54@vkrapivin/testing"
 
-    def getPostgreSQLIncludeDir():
+    def getPostgreSQLIncludeDir(self):
         return subprocess.check_output("pg_config --includedir", shell=True)
 
-    def getPostgreSQLLibDir():
+    def getPostgreSQLLibDir(self):
         return subprocess.check_output("pg_config --libdir", shell=True)
     
     def source(self):
