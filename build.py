@@ -2,7 +2,7 @@ import platform
 from conan.packager import ConanMultiPackager
 
 if __name__ == "__main__":
-    builder = ConanMultiPackager()
+    builder = ConanMultiPackager(args="--build missing")
     if platform.system() == "Windows":
         builder.add(settings={"arch": "x86", "build_type": "Debug", "compiler": "Visual Studio", "compiler.version": 14, "compiler.runtime": "MTd"},
             options={"pg_root": "C:/Program Files/PostgreSQL/10"}, env_vars={}, build_requires={})
