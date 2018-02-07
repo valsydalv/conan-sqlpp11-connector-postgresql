@@ -3,15 +3,15 @@ from conan.packager import ConanMultiPackager
 
 if __name__ == "__main__":
     builder = ConanMultiPackager()
-        if platform.system() == "Windows":
+    if platform.system() == "Windows":
         builder.add(settings={"arch": "x86", "build_type": "Debug", "compiler": "Visual Studio", "compiler.version": 14, "compiler.runtime": "MTd"},
-                    options={}, env_vars={}, build_requires={})
+            options={}, env_vars={}, build_requires={})
         builder.add(settings={"arch": "x86", "build_type": "Release", "compiler": "Visual Studio", "compiler.version": 14, "compiler.runtime": "MT"},
-                    options={}, env_vars={}, build_requires={})
+            options={}, env_vars={}, build_requires={})
         builder.add(settings={"arch": "x86_64", "build_type": "Debug", "compiler": "Visual Studio", "compiler.version": 14, "compiler.runtime": "MTd"},
-                    options={}, env_vars={}, build_requires={})
+            options={}, env_vars={}, build_requires={})
         builder.add(settings={"arch": "x86_64", "build_type": "Release", "compiler": "Visual Studio", "compiler.version": 14, "compiler.runtime": "MT"},
-                    options={}, env_vars={}, build_requires={})
+            options={}, env_vars={}, build_requires={})
     else:
         builder.add(settings={"arch": "x86", "build_type": "Debug", "compiler.libcxx": "libstdc++11"},
             options={}, env_vars={}, build_requires={})
