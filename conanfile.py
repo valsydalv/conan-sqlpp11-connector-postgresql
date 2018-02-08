@@ -1,4 +1,6 @@
 import subprocess
+import os
+
 from conans import ConanFile, CMake, tools
 
 class Sqlpp11connectorpostgresqlConan(ConanFile):
@@ -47,6 +49,7 @@ conan_basic_setup()''')
 
     def package(self):
         self.copy("*.h", dst="include", src="sqlpp11-connector-postgresql/include")
+        self.copy("*.py", dst="scripts", src="sqlpp11-connector-postgresql/scripts", keep_path=False)
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
@@ -55,7 +58,7 @@ conan_basic_setup()''')
 
     def package_info(self):
         if self.options.shared == "True":
-            self.cpp_info.libs = ['sqlpp11-connector-postgresql-dynamic']
+            self.cpp_info.libs = ["sqlpp11-connector-postgresql-dynamic"]
         else:
             self.cpp_info.libs = ['sqlpp11-connector-postgresql-static']
 
@@ -66,3 +69,5 @@ conan_basic_setup()''')
             self.cpp_info.includedirs.append(self.getPostgreSQLIncludeDir())
             self.cpp_info.libdirs.append(self.getPostgreSQLLibDir())
         self.cpp_info.libs.append('libpq')
+
+        self.user_info.DLL2CPP = os.path.join(self.package_folder, "scripts", "ddl2cpp.py")
