@@ -10,8 +10,8 @@ class Sqlpp11connectorpostgresqlConan(ConanFile):
     url = "https://github.com/StiventoUser/conan-sqlpp11-connector-postgresql"
     description = "A connector for sqlpp11 library."
     settings = "os", "compiler", "build_type", "arch"
-    options = {"shared": [True, False], "pg_root": "ANY" }
-    default_options = "shared=False", "pg_root="
+    options = {"shared": [True, False] }
+    default_options = "shared=False"
     generators = "cmake"
     requires = "sqlpp11/0.54@vkrapivin/testing"
 
@@ -34,11 +34,12 @@ conan_basic_setup()''')
     def build(self):
         cmake = CMake(self)
         if self.settings.os == "Windows":
-            if not self.options.pg_root._value:
-                raise ValueError('pg_root must be specified.')
-            cmake.definitions["POSTGRESQL_ROOT_DIR"] = self.options.pg_root
+            pg_root = os.getenv("PostgreSQL_ROOT")
+            if not pg_root:
+                raise ValueError('PostgreSQL_ROOT must be set in the environment variables.')
+            cmake.definitions["POSTGRESQL_ROOT_DIR"] = pg_root
         else:
-            cmake.definitions["PostgreSQL_ROOT_DIRECTORIES"] = "%s %s %s" (self.options.pg_root._value, self.getPostgreSQLIncludeDir(), self.getPostgreSQLLibDir())
+            cmake.definitions["PostgreSQL_ROOT_DIRECTORIES"] = "%s %s %s" (pg_root, self.getPostgreSQLIncludeDir(), self.getPostgreSQLLibDir())
         cmake.definitions["sqlpp11_ROOT_DIR"] = self.deps_cpp_info["sqlpp11"].rootpath
         cmake.configure(source_folder="sqlpp11-connector-postgresql")
         cmake.build()
@@ -63,8 +64,9 @@ conan_basic_setup()''')
             self.cpp_info.libs = ['sqlpp11-connector-postgresql']
 
         if self.settings.os == "Windows":
-            self.cpp_info.includedirs.append('%s/include' % self.options.pg_root._value)
-            self.cpp_info.libdirs.append('%s/lib' % self.options.pg_root._value)
+            pg_root = os.getenv("PostgreSQL_ROOT")
+            self.cpp_info.includedirs.append('%s/include' % pg_root)
+            self.cpp_info.libdirs.append('%s/lib' % pg_root)
         else:
             self.cpp_info.includedirs.append(self.getPostgreSQLIncludeDir())
             self.cpp_info.libdirs.append(self.getPostgreSQLLibDir())
