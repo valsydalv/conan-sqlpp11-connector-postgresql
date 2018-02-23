@@ -60,7 +60,7 @@ conan_basic_setup()''')
         if self.options.shared == "True":
             self.cpp_info.libs = ["sqlpp11-connector-postgresql-dynamic"]
         else:
-            self.cpp_info.libs = ['sqlpp11-connector-postgresql-static']
+            self.cpp_info.libs = ['sqlpp11-connector-postgresql']
 
         if self.settings.os == "Windows":
             self.cpp_info.includedirs.append('%s/include' % self.options.pg_root._value)
