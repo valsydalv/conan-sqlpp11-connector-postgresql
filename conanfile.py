@@ -24,7 +24,7 @@ class Sqlpp11connectorpostgresqlConan(ConanFile):
     def source(self):
         self.run("git clone https://github.com/StiventoUser/sqlpp11-connector-postgresql.git")
         with tools.chdir("sqlpp11-connector-postgresql"):
-            self.run("git checkout %s" % "develop") # TODO update to version checkout
+            self.run("git checkout %s" % "package-version") # TODO update to version checkout
             # This small hack might be useful to guarantee proper /MT /MD linkage in MSVC
             # if the packaged project doesn't have variables to set it properly
             tools.replace_in_file("CMakeLists.txt", "project(sqlpp11-connector-postgresql VERSION 0.1 LANGUAGES CXX)", '''project(sqlpp11-connector-postgresql VERSION 0.1 LANGUAGES CXX)
