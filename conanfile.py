@@ -39,7 +39,7 @@ conan_basic_setup()''')
                 raise ValueError('PostgreSQL_ROOT must be set in the environment variables.')
             cmake.definitions["POSTGRESQL_ROOT_DIR"] = pg_root
         else:
-            cmake.definitions["PostgreSQL_ROOT_DIRECTORIES"] = "%s %s %s" (pg_root, self.getPostgreSQLIncludeDir(), self.getPostgreSQLLibDir())
+            cmake.definitions["PostgreSQL_ROOT_DIRECTORIES"] = "%s %s" (self.getPostgreSQLIncludeDir(), self.getPostgreSQLLibDir())
         cmake.definitions["sqlpp11_ROOT_DIR"] = self.deps_cpp_info["sqlpp11"].rootpath
         cmake.configure(source_folder="sqlpp11-connector-postgresql")
         cmake.build()
