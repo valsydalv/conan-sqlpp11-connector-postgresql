@@ -16,10 +16,10 @@ class Sqlpp11connectorpostgresqlConan(ConanFile):
     requires = "sqlpp11/0.54@vkrapivin/testing"
 
     def getPostgreSQLIncludeDir(self):
-        return subprocess.check_output("pg_config --includedir", shell=True)
+        return subprocess.check_output(r"pg_config --includedir | tr -d '\n'", shell=True)
 
     def getPostgreSQLLibDir(self):
-        return subprocess.check_output("pg_config --libdir", shell=True)
+        return subprocess.check_output(r"pg_config --libdir | tr -d '\n'", shell=True)
     
     def source(self):
         self.run("git clone https://github.com/StiventoUser/sqlpp11-connector-postgresql.git")
