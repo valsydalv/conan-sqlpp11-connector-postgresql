@@ -13,7 +13,9 @@ class Sqlpp11connectorpostgresqlConan(ConanFile):
     options = {"shared": [True, False] }
     default_options = "shared=False"
     generators = "cmake"
-    requires = "sqlpp11/0.54@vkrapivin/testing"
+    requires = (
+        "sqlpp11/0.54@vkrapivin/testing",
+        "boost/1.66.0@conan/stable") # Change in a future to Boost.Lexical_Cast/1.66.0@bincrafters/stable # Boost/1.64.0@bincrafters/stable
 
     def getPostgreSQLIncludeDir(self):
         return subprocess.check_output(r"pg_config --includedir | tr -d '\n'", shell=True)
@@ -39,8 +41,10 @@ conan_basic_setup()''')
                 raise ValueError('PostgreSQL_ROOT must be set in the environment variables.')
             cmake.definitions["POSTGRESQL_ROOT_DIR"] = pg_root
         else:
-            cmake.definitions["PostgreSQL_ROOT_DIRECTORIES"] = "%s %s" (self.getPostgreSQLIncludeDir(), self.getPostgreSQLLibDir())
+            cmake.definitions["PostgreSQL_ROOT_DIRECTORIES"] = "%s %s" % (self.getPostgreSQLIncludeDir(), self.getPostgreSQLLibDir())
         cmake.definitions["sqlpp11_ROOT_DIR"] = self.deps_cpp_info["sqlpp11"].rootpath
+        cmake.definitions["CMAKE_MODULE_PATH"] = ("%s;%s/lib/cmake/Sqlpp11" % (cmake.definitions.get("CMAKE_MODULE_PATH", ""), self.deps_cpp_info["sqlpp11"].rootpath)).replace('\\', '/')
+        cmake.definitions["CMAKE_PREFIX_PATH"] = "%s/lib/cmake/Sqlpp11" % self.deps_cpp_info["sqlpp11"].rootpath
         cmake.configure(source_folder="sqlpp11-connector-postgresql")
         cmake.build()
 
@@ -63,13 +67,4 @@ conan_basic_setup()''')
         else:
             self.cpp_info.libs = ['sqlpp11-connector-postgresql']
 
-        if self.settings.os == "Windows":
-            pg_root = os.getenv("PostgreSQL_ROOT")
-            self.cpp_info.includedirs.append('%s/include' % pg_root)
-            self.cpp_info.libdirs.append('%s/lib' % pg_root)
-        else:
-            self.cpp_info.includedirs.append(self.getPostgreSQLIncludeDir())
-            self.cpp_info.libdirs.append(self.getPostgreSQLLibDir())
-        self.cpp_info.libs.append('libpq')
-
-        self.user_info.DLL2CPP = os.path.join(self.package_folder, "scripts", "ddl2cpp.py")
+        self.user_info.DDL2CPP = os.path.join(self.package_folder, "scripts", "ddl2cpp.py")
