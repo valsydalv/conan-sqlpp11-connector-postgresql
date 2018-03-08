@@ -3,8 +3,10 @@
 set -e
 set -x
 
+echo "uname: $(uname -s)"
+
 if [[ "$(uname -s)" == 'Linux' ]]; then
-    sudo apt-get install libpq-dev
+    sudo apt-get install libpq-dev postgresql-server-dev-all
 fi
 
 if [[ "$(uname -s)" == 'Darwin' ]]; then
